@@ -11,11 +11,6 @@ public class SomeView1 implements ISomeView1 {
     @Inject
     ISomePresenter presenter;
 
-    @Inject
-    public SomeView1() {
-    }
-
-    @Override
     public ISomeView1 initView() {
         Toothpick.inject(this, Toothpick.openScope("Main"));
         return this;

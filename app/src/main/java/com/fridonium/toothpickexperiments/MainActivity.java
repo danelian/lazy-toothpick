@@ -2,11 +2,21 @@ package com.fridonium.toothpickexperiments;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import toothpick.Scope;
 import toothpick.Toothpick;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    Provider<ISomeView1> view1;
+
+    @Inject
+    Provider<ISomeView1> view2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,32 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
         Scope scope = Toothpick.openScope("Main");
         scope.installModules(new SimpleModule());
-
-
-        scope.getInstance(ISomeView1.class)
-                .initView()
-                .click();
-
-        scope.getInstance(ISomeView2.class)
-                .initView()
-                .click();
-
+        Toothpick.inject(this, scope);
     }
 
-//    public static class A {
-//
-//        @Inject
-//        ISomePresenter foo1;
-//
-//        @Inject
-//        ISomePresenter foo2;
-//
-//        @Inject
-//        ISomeView1 bar1;
-//
-//        @Inject
-//        ISomeView1 bar2;
-//
-//    }
-
+    public void onClick(View view) {
+        view1.get().initView().click();
+        view2.get().initView().click();
+    }
 }
